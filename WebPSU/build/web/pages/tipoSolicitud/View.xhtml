@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewTipoSolicitudTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewTipoSolicitudLabel_idTipoSolicitud}"/>
+                    <h:outputText value="#{tipoSolicitudController.selected.idTipoSolicitud}" title="#{bundle.ViewTipoSolicitudTitle_idTipoSolicitud}"/>
+                    <h:outputText value="#{bundle.ViewTipoSolicitudLabel_nombreTiSo}"/>
+                    <h:outputText value="#{tipoSolicitudController.selected.nombreTiSo}" title="#{bundle.ViewTipoSolicitudTitle_nombreTiSo}"/>
+                    <h:outputText value="#{bundle.ViewTipoSolicitudLabel_descripcionTiSo}"/>
+                    <h:outputText value="#{tipoSolicitudController.selected.descripcionTiSo}" title="#{bundle.ViewTipoSolicitudTitle_descripcionTiSo}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{tipoSolicitudController.destroyAndView}" value="#{bundle.ViewTipoSolicitudDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewTipoSolicitudEditLink}"/>
+                <br />
+                <h:commandLink action="#{tipoSolicitudController.prepareCreate}" value="#{bundle.ViewTipoSolicitudCreateLink}" />
+                <br />
+                <h:commandLink action="#{tipoSolicitudController.prepareList}" value="#{bundle.ViewTipoSolicitudShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewTipoSolicitudIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
