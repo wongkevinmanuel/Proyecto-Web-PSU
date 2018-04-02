@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewRegistroSolicitudTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewRegistroSolicitudLabel_idRegistro}"/>
+                    <h:outputText value="#{registroSolicitudController.selected.idRegistro}" title="#{bundle.ViewRegistroSolicitudTitle_idRegistro}"/>
+                    <h:outputText value="#{bundle.ViewRegistroSolicitudLabel_nombreRe}"/>
+                    <h:outputText value="#{registroSolicitudController.selected.nombreRe}" title="#{bundle.ViewRegistroSolicitudTitle_nombreRe}"/>
+                    <h:outputText value="#{bundle.ViewRegistroSolicitudLabel_fechaRe}"/>
+                    <h:outputText value="#{registroSolicitudController.selected.fechaRe}" title="#{bundle.ViewRegistroSolicitudTitle_fechaRe}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewRegistroSolicitudLabel_solicitudReg}"/>
+                    <h:outputText value="#{registroSolicitudController.selected.solicitudReg}" title="#{bundle.ViewRegistroSolicitudTitle_solicitudReg}"/>
+                    <h:outputText value="#{bundle.ViewRegistroSolicitudLabel_idSolicitud}"/>
+                    <h:outputText value="#{registroSolicitudController.selected.idSolicitud}" title="#{bundle.ViewRegistroSolicitudTitle_idSolicitud}"/>
+                    <h:outputText value="#{bundle.ViewRegistroSolicitudLabel_idUsuario}"/>
+                    <h:outputText value="#{registroSolicitudController.selected.idUsuario}" title="#{bundle.ViewRegistroSolicitudTitle_idUsuario}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{registroSolicitudController.destroyAndView}" value="#{bundle.ViewRegistroSolicitudDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewRegistroSolicitudEditLink}"/>
+                <br />
+                <h:commandLink action="#{registroSolicitudController.prepareCreate}" value="#{bundle.ViewRegistroSolicitudCreateLink}" />
+                <br />
+                <h:commandLink action="#{registroSolicitudController.prepareList}" value="#{bundle.ViewRegistroSolicitudShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewRegistroSolicitudIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

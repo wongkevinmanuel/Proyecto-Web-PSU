@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditRegistroSolicitudTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditRegistroSolicitudLabel_idRegistro}" for="idRegistro" />
+                    <h:inputText id="idRegistro" value="#{registroSolicitudController.selected.idRegistro}" title="#{bundle.EditRegistroSolicitudTitle_idRegistro}" required="true" requiredMessage="#{bundle.EditRegistroSolicitudRequiredMessage_idRegistro}"/>
+                    <h:outputLabel value="#{bundle.EditRegistroSolicitudLabel_nombreRe}" for="nombreRe" />
+                    <h:inputText id="nombreRe" value="#{registroSolicitudController.selected.nombreRe}" title="#{bundle.EditRegistroSolicitudTitle_nombreRe}" />
+                    <h:outputLabel value="#{bundle.EditRegistroSolicitudLabel_fechaRe}" for="fechaRe" />
+                    <h:inputText id="fechaRe" value="#{registroSolicitudController.selected.fechaRe}" title="#{bundle.EditRegistroSolicitudTitle_fechaRe}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditRegistroSolicitudLabel_solicitudReg}" for="solicitudReg" />
+                    <h:inputText id="solicitudReg" value="#{registroSolicitudController.selected.solicitudReg}" title="#{bundle.EditRegistroSolicitudTitle_solicitudReg}" />
+                    <h:outputLabel value="#{bundle.EditRegistroSolicitudLabel_idSolicitud}" for="idSolicitud" />
+                    <h:selectOneMenu id="idSolicitud" value="#{registroSolicitudController.selected.idSolicitud}" title="#{bundle.EditRegistroSolicitudTitle_idSolicitud}" >
+                        <f:selectItems value="#{solicitudController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditRegistroSolicitudLabel_idUsuario}" for="idUsuario" />
+                    <h:selectOneMenu id="idUsuario" value="#{registroSolicitudController.selected.idUsuario}" title="#{bundle.EditRegistroSolicitudTitle_idUsuario}" >
+                        <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{registroSolicitudController.update}" value="#{bundle.EditRegistroSolicitudSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditRegistroSolicitudViewLink}"/>
+                <br />
+                <h:commandLink action="#{registroSolicitudController.prepareList}" value="#{bundle.EditRegistroSolicitudShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditRegistroSolicitudIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

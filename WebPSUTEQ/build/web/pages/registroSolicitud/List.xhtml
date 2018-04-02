@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListRegistroSolicitudTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListRegistroSolicitudEmpty}" rendered="#{registroSolicitudController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{registroSolicitudController.items.rowCount > 0}">
+                    <h:outputText value="#{registroSolicitudController.pagination.pageFirstItem + 1}..#{registroSolicitudController.pagination.pageLastItem + 1}/#{registroSolicitudController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{registroSolicitudController.previous}" value="#{bundle.Previous} #{registroSolicitudController.pagination.pageSize}" rendered="#{registroSolicitudController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{registroSolicitudController.next}" value="#{bundle.Next} #{registroSolicitudController.pagination.pageSize}" rendered="#{registroSolicitudController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{registroSolicitudController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRegistroSolicitudTitle_idRegistro}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idRegistro}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRegistroSolicitudTitle_nombreRe}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nombreRe}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRegistroSolicitudTitle_fechaRe}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaRe}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRegistroSolicitudTitle_solicitudReg}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.solicitudReg}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRegistroSolicitudTitle_idSolicitud}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idSolicitud}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRegistroSolicitudTitle_idUsuario}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idUsuario}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{registroSolicitudController.prepareView}" value="#{bundle.ListRegistroSolicitudViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{registroSolicitudController.prepareEdit}" value="#{bundle.ListRegistroSolicitudEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{registroSolicitudController.destroy}" value="#{bundle.ListRegistroSolicitudDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{registroSolicitudController.prepareCreate}" value="#{bundle.ListRegistroSolicitudCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListRegistroSolicitudIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
