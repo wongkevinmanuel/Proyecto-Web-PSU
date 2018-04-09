@@ -23,13 +23,13 @@
                         <div class="form-group">
                             <div class="col-sm-3">
                             <h:panelGrid columns="2">
-                                    <h:outputText value="El motivo de mi peticion es por:"/>
+                                <h:outputText value="#{RegistroSolicontr.contenidoSolicitud.adjuntoTexto.contenido}"/>
                             </h:panelGrid>
                              </div>
                             <div class="col-sm-6">
                                <!-- <div class="form-check">-->
-                               <p:selectManyCheckbox id="basic" value="#{solicitudControlador.selectedArchiveAdjunto}" class="form-check">
-                                   <f:selectItems value="#{solicitudControlador.motivos}" var="motivo" itemLabel="#{motivo}" itemValue="#{motivo}" />
+                               <p:selectManyCheckbox id="basic" value="#{RegistroSolicontr.selectedArchivoAdjunto}" class="form-check">
+                                   <f:selectItems value="#{RegistroSolicontr.itemsDisponiblesSelectMuchos}" var="motivo" itemLabel="#{motivo}" itemValue="#{motivo}" />
                                </p:selectManyCheckbox>
                                 <!--</div>-->
                             </div>
@@ -37,8 +37,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label"> </label>
                             <div class="col-sm-6">
-                                <p:commandLink actionListener="#{solicitudControlador.optenerMotivo()}" update="mensageMov"  value="Generar" class="btn btn-success"/>  
-                                
+                                <p:commandLink actionListener="#{RegistroSolicontr.generarSolicitud()}" update="mensageMov"  value="Generrar Solicitud" class="btn btn-success"/>  
                             </div>
                         </div>
                     </div>

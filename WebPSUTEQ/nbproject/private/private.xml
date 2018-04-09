@@ -3,12 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/web/pages/solicitud/View.xhtml</file>
+            <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/src/java/com/uteq/psu/modelo/DatoValor.java</file>
+            <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/src/java/com/uteq/psu/controler/UsuarioController.java</file>
+            <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/src/java/com/uteq/psu/modelo/ContentSolicitud.java</file>
+            <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/src/java/com/uteq/psu/controler/util/JsfUtil.java</file>
             <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/src/java/com/uteq/psu/controler/RegistroSolicontr.java</file>
-            <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/web/template.xhtml</file>
             <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/web/pages/solicitud/Solmatter.xhtml</file>
             <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/web/pages/registroSolicitud/Create.xhtml</file>
-            <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/web/pages/solicitud/List.xhtml</file>
+            <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/src/java/com/uteq/psu/modelo/VariableValor.java</file>
         </group>
     </open-files>
 </project-private>

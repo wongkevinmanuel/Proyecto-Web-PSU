@@ -63,16 +63,14 @@
                                         <a  href="#" style="text-decoration: none;"> 
                                             <img src="/Web3wildfly/faces/javax.faces.resource/logo_u.png?ln=image" width="44" class="img-circle"/>
                                             <span>Bienvenido:</span>
-                                            <strong>{Dante}</strong>
+                                            <strong> { <h:outputText value="DANTE"/> }</strong>
                                         </a>
                                     </li> 
                                     
                                     <li><a href="#"><i class="icono izquierda fa fa-user" aria-hidden="true"></i> Opciones <i class="icono derecha fa fa-chevron-down" aria-hidden="true"></i></a>
                                         <ul>
                                             <li><h:link outcome="/pages/solicitud/List" value="Datos" /></li>
-                                            <li><h:link outcome="/pages/registroSolicitud/Create" value="RegSoli"/> </li>
-                                            <li><h:link outcome="/pages/tipoSolicitud/List"  value="Ir a lista de solicitud"/> </li>
-                                                    
+                                            <li><h:link outcome="/pages/registroSolicitud/Create" value="Mis Solicitudes"/> </li>
                                         </ul>
                                     </li>
                                     <h:form><ui:repeat value="#{menucontr.items}" var="item">
@@ -101,7 +99,7 @@
                                     <li class="profile-info dropdown" style="width: 158%">
                                         <a href="#" class="dropdown-toggle"> 
                                             <img src="/Web3wildfly/faces/javax.faces.resource/usuario.png?ln=image" width="44"/>
-                                            {Dante} <h:outputText value="#{session.getAttribute("usuario")}"/>
+                                            { <h:outputText value="DANTE"/> }
                                         </a>
                                     </li>
                                 </ul>
