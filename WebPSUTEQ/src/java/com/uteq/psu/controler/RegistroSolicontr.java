@@ -1,6 +1,7 @@
 package com.uteq.psu.controler;
 
 import com.uteq.psu.controler.util.JsfUtil;
+import com.uteq.psu.controler.util.Pagina;
 import com.uteq.psu.modelo.ContentSolicitud;
 import com.uteq.psu.modelo.DatoValor;
 import com.uteq.psu.modelo.Estudiante;
@@ -18,6 +19,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -89,6 +91,24 @@ public class RegistroSolicontr implements Serializable{
             boolean solicitudLlenada = contenidoSolicitud.llenarContSolicitudDatosEstud();
             //Dato de la seleccion de archivos a adjuntos [] selectedArchivoAdjunto
             
+            //Datos de Fecha
+            Calendar fecha = Calendar.getInstance();
+            String datoFecha = "Quevedo, " + fecha.get(Calendar.DATE) + " "+ fecha.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + "  del "+ fecha.get(Calendar.YEAR) ;
+            //Ubicacion de la imagen
+            ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String ubicacionLogo = (String) servletContext.getRealPath("/resources/image/logo_solicitud.png");
+            //Generar Solicitud
+            Pagina solicitudPDF = new Pagina();
+            boolean generadoPDF = solicitudPDF.Crear_pdf(ubicacionLogo,currentRegisSoli.getIdSolicitud().getNombreSolicitud()
+                                                        , datoFecha
+                                                        , contenidoSolicitud.getDirigidaNombre().getContenido()+contenidoSolicitud.getDirigidaTitulo().getContenido()
+                                                        ,  contenidoSolicitud.getContenido().getContenido()
+                                                        , contenidoSolicitud.getAdjuntoTexto().getContenido()
+                                                        , selectedArchivoAdjunto
+                                                        , ""//"Nota se adjunta esto"
+                                                        , new String[]{"Certificado medico"}//new String[]{"Certificado medico"}
+                                                        , contenidoSolicitud.getAdicional().getContenido()
+                                                        , contenidoSolicitud.getTituloSolicitante().getContenido());
             
             //contenidoSolicitud.getDirigidaNombre().getVariablesContenido().get(0).getNombreVariable().e
             //this.nombreUser = user.getEstNombres() + user.getEstApellido_paterno();
@@ -96,12 +116,9 @@ public class RegistroSolicontr implements Serializable{
             //context.addMessage(null , new FacesMessage("Fecha: " + user.getEstCedula()));
             //Generar el PDF de solicitud
             
-            
-            Calendar fecha = Calendar.getInstance();
-            String datoFecha = "Quevedo, " + fecha.get(Calendar.DATE) + " "+ fecha.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + "  del "+ fecha.get(Calendar.YEAR) ;
-            
+            //if (generadoPDF == true)
             if (true == true)
-            context.addMessage(null , new FacesMessage("Fecha: " + datoFecha + " Conenido: " + contenidoSolicitud.getContenido().getContenido()));
+            context.addMessage(null , new FacesMessage("Solicitud generar "+ ubicacionLogo ));//context.addMessage(null , new FacesMessage("Fecha: " + datoFecha + " Conenido: " + contenidoSolicitud.getContenido().getContenido()));
             else
             context.addMessage(null , new FacesMessage( FacesMessage.SEVERITY_ERROR ,"Error en solicitud" , "No se ha podido generar el PDF de la solicitud"));
         

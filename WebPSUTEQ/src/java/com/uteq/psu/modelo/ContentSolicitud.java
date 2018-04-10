@@ -90,7 +90,7 @@ public class ContentSolicitud implements Serializable{
             adicional.setVariablesContenido(buscarNombreVariables(adicional.getContenido()));
             //TITULOSOLICITANTE
             tituloSolicitante = new VariableValor(new JSONArray(contenido.getJSONObject(TITULOSOLICITANTE).getString(ENUM)).getString(0));
-            tituloSolicitante.setVariablesContenido(null);
+            tituloSolicitante.setVariablesContenido(buscarNombreVariables(tituloSolicitante.getContenido()));
             
         } catch (JSONException ex) {
             Logger.getLogger(ContentSolicitud.class.getName()).log(Level.SEVERE, null, ex);
@@ -165,6 +165,14 @@ public class ContentSolicitud implements Serializable{
                 }   
             }
             //tituloSolicitante No se planea que en el adjuntoTexto tenga variables a reemplazar
+            for(Iterator<DatoValor> iterator7 = tituloSolicitante.getVariablesContenido().iterator(); iterator7.hasNext();) {
+            DatoValor next7 = iterator7.next();
+                if(next.getNombreVariable().equals(next7.getNombreVariable())){
+                    tituloSolicitante.getVariablesContenido().add(new DatoValor(next.getNombreVariable(), next.getValorVariable()));
+                    tituloSolicitante.getVariablesContenido().remove(next7);
+                    break;
+                }   
+            }
         }
         
     }
@@ -173,17 +181,17 @@ public class ContentSolicitud implements Serializable{
         //dirigidaNombre
         dirigidaNombre.setContenido(buscarVariableReemplazar(dirigidaNombre.getContenido(), dirigidaNombre.getVariablesContenido()));
         //dirigidaTitulo
-        
+        dirigidaTitulo.setContenido(buscarVariableReemplazar(dirigidaTitulo.getContenido(), dirigidaTitulo.getVariablesContenido()));
         //contenido
         contenido.setContenido(buscarVariableReemplazar( contenido.getContenido(),contenido.getVariablesContenido() ));
         //adjuntoTexto
-        
+        //adjuntoTexto no es necesario.
         //adjuntoOpcion
-        
-        //adicional;
-        
-        //tituloSolicitante;
-        
+        //adjuntoOpcion no es necesario el usuario elige selecciones
+        //adicional
+        adicional.setContenido(buscarVariableReemplazar(adicional.getContenido(), adicional.getVariablesContenido()));
+        //tituloSolicitante
+        tituloSolicitante.setContenido(buscarVariableReemplazar(tituloSolicitante.getContenido(),tituloSolicitante.getVariablesContenido()));
         return true;
     }
     
