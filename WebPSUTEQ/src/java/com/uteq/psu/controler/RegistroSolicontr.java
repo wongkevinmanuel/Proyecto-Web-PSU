@@ -3,17 +3,22 @@ package com.uteq.psu.controler;
 import com.uteq.psu.controler.util.JsfUtil;
 import com.uteq.psu.modelo.ContentSolicitud;
 import com.uteq.psu.modelo.DatoValor;
+import com.uteq.psu.modelo.Estudiante;
 import com.uteq.psu.modelo.RegistroSolicitud;
 import com.uteq.psu.modelo.Solicitud;
 import com.uteq.psu.modelo.VariableValor;
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -33,7 +38,6 @@ public class RegistroSolicontr implements Serializable{
     /*Objetos para gestionar los datos al usuario */
     private ContentSolicitud contenidoSolicitud;
     private String [] selectedArchivoAdjunto;
-    
     
     
     
@@ -75,17 +79,33 @@ public class RegistroSolicontr implements Serializable{
             context.addMessage(null , new FacesMessage( FacesMessage.SEVERITY_WARN ,"No ha adjuntado documento" , "Debe seleccionar los documentos que desea adjuntar"));
         }
         else{
-            context.addMessage(null , new FacesMessage("Selecciono: " + selectedArchivoAdjunto[0] + " cantidad: "+ selectedArchivoAdjunto.length));
             //Generar Solcitud 
-            //Optener los datos 
-
+            //Optener los datos del usuario
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);  
+            Estudiante user = (Estudiante) session.getAttribute("usuario");
+            //llenar la contenido de la solicitud con los datos del usuario
+            user.ordenarInformacionUsuario();
+            contenidoSolicitud.contSolicitudDatosEstud(user.getInformacionEstudiante());
+            boolean solicitudLlenada = contenidoSolicitud.llenarContSolicitudDatosEstud();
+            //Dato de la seleccion de archivos a adjuntos [] selectedArchivoAdjunto
+            
+            
+            //contenidoSolicitud.getDirigidaNombre().getVariablesContenido().get(0).getNombreVariable().e
+            //this.nombreUser = user.getEstNombres() + user.getEstApellido_paterno();
             //Guardar en la BD formateado en JSON
-
+            //context.addMessage(null , new FacesMessage("Fecha: " + user.getEstCedula()));
             //Generar el PDF de solicitud
+            
+            
+            Calendar fecha = Calendar.getInstance();
+            String datoFecha = "Quevedo, " + fecha.get(Calendar.DATE) + " "+ fecha.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + "  del "+ fecha.get(Calendar.YEAR) ;
+            
+            if (true == true)
+            context.addMessage(null , new FacesMessage("Fecha: " + datoFecha + " Conenido: " + contenidoSolicitud.getContenido().getContenido()));
+            else
+            context.addMessage(null , new FacesMessage( FacesMessage.SEVERITY_ERROR ,"Error en solicitud" , "No se ha podido generar el PDF de la solicitud"));
         
         }
-        
-        
     }
     
     
@@ -124,5 +144,7 @@ public class RegistroSolicontr implements Serializable{
     public void setContenidoSolicitud(ContentSolicitud contenidoSolicitud) {
         this.contenidoSolicitud = contenidoSolicitud;
     }
+
+    
 
 }

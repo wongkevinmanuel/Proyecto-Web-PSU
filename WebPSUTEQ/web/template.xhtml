@@ -63,7 +63,7 @@
                                         <a  href="#" style="text-decoration: none;"> 
                                             <img src="/Web3wildfly/faces/javax.faces.resource/logo_u.png?ln=image" width="44" class="img-circle"/>
                                             <span>Bienvenido:</span>
-                                            <strong> { <h:outputText value="DANTE"/> }</strong>
+                                            <strong><h:outputText value="#{menucontr.nombreUser}"/></strong>
                                         </a>
                                     </li> 
                                     
@@ -99,7 +99,7 @@
                                     <li class="profile-info dropdown" style="width: 158%">
                                         <a href="#" class="dropdown-toggle"> 
                                             <img src="/Web3wildfly/faces/javax.faces.resource/usuario.png?ln=image" width="44"/>
-                                            { <h:outputText value="DANTE"/> }
+                                            <h:outputText value="#{menucontr.nombreUser}"/>
                                         </a>
                                     </li>
                                 </ul>
@@ -109,13 +109,13 @@
                     </div>    
                     <div id="contenido_cuerpo">
                         <!-- Titulo de la Solicitud -->
-                        <h1> 
-                            <ui:insert name="title"> Titulo por defecto de esta {# Nombre de alguna solicitud} ...</ui:insert>
+                        <h2> 
+                            <ui:insert name="title"> ... </ui:insert>
                             <hr></hr>
-                        </h1>
+                        </h2>
                         <!-- Cuerpo de la solicitud -->
                         <p>
-                            <ui:insert name="body"> Body por defecto de esta {# Pantalla que dice que tiene la solicitud o para llenar valores}... </ui:insert>
+                            <ui:insert name="body"> ... </ui:insert>
                             <hr></hr>
                         </p>
                     </div>

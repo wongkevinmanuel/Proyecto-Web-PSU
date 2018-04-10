@@ -1,15 +1,18 @@
 
 package com.uteq.psu.controler;
 
+import com.uteq.psu.modelo.Estudiante;
 import com.uteq.psu.modelo.Solicitud;
 import com.uteq.psu.modelo.TipoSolicitud;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -19,7 +22,10 @@ import javax.inject.Named;
 @Named("menucontr")
 @SessionScoped
 public class menucontr implements Serializable{
- 
+    
+    private String nombreUser;
+    
+    
     private TipoSolicitud solicitudesMenu;
     private DataModel items= null;
     
@@ -66,5 +72,21 @@ public class menucontr implements Serializable{
         this.solicitudesMenu = solicitudesMenu;
     }
     
+    /**
+     * @return the nombreUser
+     */
+    public String getNombreUser() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);  
+        Estudiante user = (Estudiante) session.getAttribute("usuario");
+        nombreUser = user.getEstApellido_paterno();
+        return nombreUser;
+    }
+
+    /**
+     * @param nombreUser the nombreUser to set
+     */
+    public void setNombreUser(String nombreUser) {
+        this.nombreUser = nombreUser;
+    }
     
 }

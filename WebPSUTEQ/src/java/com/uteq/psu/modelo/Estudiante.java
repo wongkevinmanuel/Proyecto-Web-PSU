@@ -6,6 +6,7 @@
 package com.uteq.psu.modelo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -30,6 +31,63 @@ public class Estudiante {
     private String estFactulad;
     private String estCarrera;
     private ArrayList<FacultadAutoridades> AutoridadesFacultad;
+    //Utilizada para ordenar los nombres de las variables y los datos
+    private ArrayList<DatoValor> informacionEstudiante;
+    
+    
+    public Estudiante(int estCodigo, String estNombres, String estApellido_paterno, String estApellido_materno, String estCedula, String estCorreo, String estCelular, String estSexo, String estSemestre, String estParalelo, String estPeriodoLectivo, String estFactulad, String estCarrera, ArrayList<FacultadAutoridades> AutoridadesFacultad) {
+        this.estCodigo = estCodigo;
+        this.estNombres = estNombres;
+        this.estApellido_paterno = estApellido_paterno;
+        this.estApellido_materno = estApellido_materno;
+        this.estCedula = estCedula;
+        this.estCorreo = estCorreo;
+        this.estCelular = estCelular;
+        this.estSexo = estSexo;
+        this.estSemestre = estSemestre;
+        this.estParalelo = estParalelo;
+        this.estPeriodoLectivo = estPeriodoLectivo;
+        this.estFactulad = estFactulad;
+        this.estCarrera = estCarrera;
+        this.AutoridadesFacultad = AutoridadesFacultad;
+    }
+    public Estudiante() {
+        AutoridadesFacultad = new ArrayList<>();
+    }
+    public void ordenarInformacionUsuario() {
+        //ArrayList<DatoValor> variablesContenido=new ArrayList<>();
+        this.setInformacionEstudiante(new ArrayList<>());
+        getInformacionEstudiante().add(new DatoValor("estudiantenombre", estNombres.toUpperCase() + " " + estApellido_paterno.toUpperCase() +" " +estApellido_materno.toUpperCase() ));
+        getInformacionEstudiante().add(new DatoValor("estudiantecedula", estCedula));
+        getInformacionEstudiante().add(new DatoValor("estudiantesemestre",estSemestre));
+        getInformacionEstudiante().add(new DatoValor("estudianteparalelo", estParalelo));
+        getInformacionEstudiante().add(new DatoValor("estudiantecarrera", estCarrera));
+        getInformacionEstudiante().add(new DatoValor("estudianteperiodolectivo", estPeriodoLectivo));
+        getInformacionEstudiante().add(new DatoValor("facultad",estFactulad ));
+        getInformacionEstudiante().add(new DatoValor("estudiantetelefono", estCelular));
+        getInformacionEstudiante().add(new DatoValor("estudianteemail", estCorreo));
+        //Autoridades
+        for (Iterator<FacultadAutoridades> iterator = AutoridadesFacultad.iterator(); iterator.hasNext();) {
+            FacultadAutoridades next = iterator.next();
+            switch(next.getTipo()){
+                case "facultaddecano":
+                        {
+                            getInformacionEstudiante().add(new DatoValor("facultaddecano",next.getNombresAutoridad() ));
+                            break;
+                        }
+                case "facultadsubdecano":
+                        {
+                            getInformacionEstudiante().add(new DatoValor("facultadsuddecano",next.getNombresAutoridad() ));
+                            break;
+                        }
+                case "facultadcoordinador":
+                        {
+                            getInformacionEstudiante().add(new DatoValor("facultadcoordinador",next.getNombresAutoridad() ));
+                            break;  
+                        }}
+       }
+    }   
+       
     
     /**
      * @return the status
@@ -226,9 +284,7 @@ public class Estudiante {
         this.estCarrera = estCarrera;
     }
 
-    public Estudiante() {
-        AutoridadesFacultad = new ArrayList<>();
-    }
+    
     
     
     /**
@@ -244,21 +300,21 @@ public class Estudiante {
     public void setAutoridadesFacultad(ArrayList<FacultadAutoridades> AutoridadesFacultad) {
         this.AutoridadesFacultad = AutoridadesFacultad;
     }
-    public Estudiante(int estCodigo, String estNombres, String estApellido_paterno, String estApellido_materno, String estCedula, String estCorreo, String estCelular, String estSexo, String estSemestre, String estParalelo, String estPeriodoLectivo, String estFactulad, String estCarrera, ArrayList<FacultadAutoridades> AutoridadesFacultad) {
-        this.estCodigo = estCodigo;
-        this.estNombres = estNombres;
-        this.estApellido_paterno = estApellido_paterno;
-        this.estApellido_materno = estApellido_materno;
-        this.estCedula = estCedula;
-        this.estCorreo = estCorreo;
-        this.estCelular = estCelular;
-        this.estSexo = estSexo;
-        this.estSemestre = estSemestre;
-        this.estParalelo = estParalelo;
-        this.estPeriodoLectivo = estPeriodoLectivo;
-        this.estFactulad = estFactulad;
-        this.estCarrera = estCarrera;
-        this.AutoridadesFacultad = AutoridadesFacultad;
+
+    /**
+     * @return the informacionEstudiante
+     */
+    public ArrayList<DatoValor> getInformacionEstudiante() {
+        return informacionEstudiante;
     }
+
+    /**
+     * @param informacionEstudiante the informacionEstudiante to set
+     */
+    public void setInformacionEstudiante(ArrayList<DatoValor> informacionEstudiante) {
+        this.informacionEstudiante = informacionEstudiante;
+    }
+    
+
     
 }
