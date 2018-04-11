@@ -4,10 +4,11 @@ package com.uteq.psu.controler;
 import com.uteq.psu.modelo.Estudiante;
 import com.uteq.psu.modelo.Solicitud;
 import com.uteq.psu.modelo.TipoSolicitud;
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
@@ -49,6 +50,24 @@ public class menucontr implements Serializable{
     
     public menucontr() {}
     
+    
+    public String closeSession(){
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/index";
+    }
+    
+    public void chequearSession(){
+        ExternalContext exContext = FacesContext.getCurrentInstance().getExternalContext();
+        HttpSession session = (HttpSession) exContext.getSession(false);  
+        Estudiante user = (session == null)? null: (Estudiante) session.getAttribute("usuario") ;
+        if(user == null){  
+            try{
+            exContext.redirect(exContext.getRequestContextPath()+ "/faces/index.xhtml");
+            }catch(IOException e){
+            e.printStackTrace();
+            }
+        }
+    }
     
     
     public DataModel getItems() {

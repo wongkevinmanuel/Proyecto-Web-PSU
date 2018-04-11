@@ -14,30 +14,7 @@
             <h:panelGroup id="messagePanel" layout="block">
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
-            <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputText value="#{bundle.ViewUsuarioLabel_idUsuario}"/>
-                    <h:outputText value="#{usuarioController.selected.idUsuario}" title="#{bundle.ViewUsuarioTitle_idUsuario}"/>
-                    <h:outputText value="#{bundle.ViewUsuarioLabel_idSicau}"/>
-                    <h:outputText value="#{usuarioController.selected.idSicau}" title="#{bundle.ViewUsuarioTitle_idSicau}"/>
-                    <h:outputText value="#{bundle.ViewUsuarioLabel_cedula}"/>
-                    <h:outputText value="#{usuarioController.selected.cedula}" title="#{bundle.ViewUsuarioTitle_cedula}"/>
-                </h:panelGrid>
-                <br />
-                <h:commandLink action="#{usuarioController.destroyAndView}" value="#{bundle.ViewUsuarioDestroyLink}"/>
-                <br />
-                <br />
-                <h:link outcome="Edit" value="#{bundle.ViewUsuarioEditLink}"/>
-                <br />
-                <h:commandLink action="#{usuarioController.prepareCreate}" value="#{bundle.ViewUsuarioCreateLink}" />
-                <br />
-                <h:commandLink action="#{usuarioController.prepareList}" value="#{bundle.ViewUsuarioShowAllLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ViewUsuarioIndexLink}"/>
-
-            </h:form>
-            <h:form> <p:growl id="mensageMov" showDetail="true" sticky="true"/>
+            <h:form class="form-horizontal"> <p:growl id="mensageMov" showDetail="true" sticky="true"/>
                 <h:panelGroup rendered="true">
                 <div class="panel panel-dark">
                     <div class="panel-heading">
@@ -45,37 +22,48 @@
                     </div>
                     <div class="panel-body">
                         <div class="form-group ">
-                            	<label class="col-sm-3 control-label">Código:</label>
-				<div class="col-sm-6">
-                                    <input name="" value="2940" disabled="disabled" type="text"></input>
+				<label class="col-sm-3 control-label" size="40">Apellido paterno:</label>
+			    
+                                <div class="col-sm-6"><input name="" value="#{usuarioController.estudiante.estApellido_paterno}" class="form-control" maxlength="40" size="40" disabled="disabled" type="text"></input>
 				</div>
-			</div>
-                        <div class="form-group ">
-
-				<label class="col-sm-3 control-label">Apellido paterno:</label>
-				
-				<div class="col-sm-6"><input name="" value="ONOFRE" class="form-control" maxlength="40" size="40" disabled="disabled" type="text"></input>
-				</div>
+                            
 			</div>
                         <div class="form-group ">
 
 				<label class="col-sm-3 control-label">Apellido materno:</label>
 				
-				<div class="col-sm-6"><input name="" value="WONG" class="form-control" maxlength="40" size="40" disabled="disabled" type="text"></input>
+                                <div class="col-sm-6"><input name="" value="#{usuarioController.estudiante.estApellido_materno}" class="form-control" maxlength="40" size="40" disabled="disabled" type="text"></input>
 				</div>
 			</div>
                         <div class="form-group ">
 
 				<label class="col-sm-3 control-label">Nombres:</label>
 				
-				<div class="col-sm-6"><input name="" value="KEVIN MANUEL" class="form-control" maxlength="40" size="40" disabled="disabled" type="text"></input>
+                                <div class="col-sm-6"><input name="" value="#{usuarioController.estudiante.estNombres}" class="form-control" maxlength="40" size="40" disabled="disabled" type="text"></input>
 				</div>
 			</div>
                         <div class="form-group ">
 
-				<label class="col-sm-3 control-label">Cédula</label>
+				<label class="col-sm-3 control-label">Cédula:</label>
 				
-				<div class="col-sm-6"><input name="" value="0941629388" class="form-control" disabled="disabled" type="text"></input>
+                                <div class="col-sm-6"><input name="" value="#{usuarioController.estudiante.estCedula}" class="form-control" disabled="disabled" type="text"></input>
+				</div>
+			</div>
+                        <div class="form-group ">
+
+				<label class="col-sm-3 control-label">Celular:</label>
+				
+                                <div class="col-sm-6"><input type="text" name="j_idt144:j_idt196:j_idt197" disabled="disabled" value="#{usuarioController.estudiante.estCelular}" class="form-control"></input>
+				</div>
+			</div>
+                        <div class="form-group ">
+
+				<label class="col-sm-3 control-label">Mail:</label>
+				
+				<div class="col-sm-6">
+					<div class="input-group">
+                                            <span class="input-group-addon">@</span><input type="text" disabled="disabled" name="j_idt144:j_idt243:j_idt245" value="#{usuarioController.estudiante.estCorreo}" class="form-control" maxlength="60" size="40"></input>
+					</div>
 				</div>
 			</div>
                     </div>

@@ -97,9 +97,11 @@ public class RegistroSolicontr implements Serializable{
             //Ubicacion de la imagen
             ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
             String ubicacionLogo = (String) servletContext.getRealPath("/resources/image/logo_solicitud.png");
+            //Ubicacion de la imagen
+            String ubicacionArchivo = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()+"solicitud.pdf";
             //Generar Solicitud
             Pagina solicitudPDF = new Pagina();
-            boolean generadoPDF = solicitudPDF.Crear_pdf(ubicacionLogo,currentRegisSoli.getIdSolicitud().getNombreSolicitud()
+            boolean generadoPDF = solicitudPDF.Crear_pdf(ubicacionArchivo,ubicacionLogo,currentRegisSoli.getIdSolicitud().getNombreSolicitud()
                                                         , datoFecha
                                                         , contenidoSolicitud.getDirigidaNombre().getContenido()+contenidoSolicitud.getDirigidaTitulo().getContenido()
                                                         ,  contenidoSolicitud.getContenido().getContenido()

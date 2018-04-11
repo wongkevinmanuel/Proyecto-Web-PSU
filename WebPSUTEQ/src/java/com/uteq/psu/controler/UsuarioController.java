@@ -4,6 +4,7 @@ import com.uteq.psu.modelo.Usuario;
 import com.uteq.psu.controler.util.JsfUtil;
 import com.uteq.psu.controler.util.PaginationHelper;
 import com.uteq.psu.bean.UsuarioFacade;
+import com.uteq.psu.modelo.Estudiante;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -17,10 +18,28 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
 
 @Named("usuarioController")
 @SessionScoped
 public class UsuarioController implements Serializable {
+
+    /**
+     * @return the estudiante
+     */
+    public Estudiante getEstudiante() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);  
+        Estudiante user = (Estudiante) session.getAttribute("usuario");
+        estudiante = user;
+        return estudiante;
+    }
+
+    /**
+     * @param estudiante the estudiante to set
+     */
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
+    }
 
     private Usuario current;
     private DataModel items = null;
@@ -28,7 +47,10 @@ public class UsuarioController implements Serializable {
     private com.uteq.psu.bean.UsuarioFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
-
+    
+    //Informacion del usuario en session
+    private Estudiante estudiante;
+    
     public UsuarioController() {
     }
 

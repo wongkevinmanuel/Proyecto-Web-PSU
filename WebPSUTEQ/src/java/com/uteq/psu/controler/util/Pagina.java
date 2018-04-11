@@ -15,7 +15,7 @@ public class Pagina {
 
     }
 
-    public boolean Crear_pdf(String logo_actual,String titulo_solicitud_actual, String fecha_solicitud_actual, String oficio_inicio_actual, String texto_oficio_actual, String motivo_adjunto_actual, String[] motivos, String documento_adjunto_actual, String[] documentos, String fin_oficio_actual, String firma_estudiante_actual) {
+    public boolean Crear_pdf(String ubicacionArchivo,String logo_actual,String titulo_solicitud_actual, String fecha_solicitud_actual, String oficio_inicio_actual, String texto_oficio_actual, String motivo_adjunto_actual, String[] motivos, String documento_adjunto_actual, String[] documentos, String fin_oficio_actual, String firma_estudiante_actual) {
 
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         //+                             Creacion del pdf                                 +
@@ -46,7 +46,8 @@ public class Pagina {
             // Creación del documento
             //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             Document documento = new Document(PageSize.A4, margen_izquierdo, margen_derecho, margen_superior, margen_inferior);
-            PdfWriter.getInstance(documento, new FileOutputStream("solicitud.pdf"));
+            //PdfWriter.getInstance(documento, new FileOutputStream("solicitud.pdfubicacionArchivo"));
+            PdfWriter.getInstance(documento, new FileOutputStream(ubicacionArchivo));
             documento.open();
 
             // Tabla principal para el oficio
