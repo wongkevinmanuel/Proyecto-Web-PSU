@@ -125,9 +125,9 @@ public class Pagina {
             parrafo.setAlignment(Element.ALIGN_JUSTIFIED);
             cuerpo.addElement(parrafo);
 
-            parrafo = new Paragraph(interlineado, cargar_documentos, FontFactory.getFont("ARIAL", 11, Font.NORMAL, BaseColor.BLACK));
-            parrafo.setAlignment(Element.ALIGN_JUSTIFIED);
-            cuerpo.addElement(parrafo);
+            //parrafo = new Paragraph(interlineado, cargar_documentos, FontFactory.getFont("ARIAL", 11, Font.NORMAL, BaseColor.BLACK));
+            //parrafo.setAlignment(Element.ALIGN_JUSTIFIED);
+            //cuerpo.addElement(parrafo);
 
             // Final de oficio, agradecimiento
             //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -106,7 +106,7 @@ public class RegistroSolicontr implements Serializable{
                                                         , contenidoSolicitud.getAdjuntoTexto().getContenido()
                                                         , selectedArchivoAdjunto
                                                         , ""//"Nota se adjunta esto"
-                                                        , new String[]{"Certificado medico"}//new String[]{"Certificado medico"}
+                                                        , new String[]{""}//new String[]{"Certificado medico"}
                                                         , contenidoSolicitud.getAdicional().getContenido()
                                                         , contenidoSolicitud.getTituloSolicitante().getContenido());
             
