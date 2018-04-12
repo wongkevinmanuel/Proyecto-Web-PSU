@@ -1,21 +1,19 @@
 package com.uteq.psu.controler.util;
 
 import com.itextpdf.text.*;
-import static com.itextpdf.text.Annotation.URL;
-import static com.itextpdf.text.pdf.PdfName.URL;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.*;
 import com.itextpdf.text.pdf.PdfPTable;
-import java.net.URL;
 
 public class Pagina {
 
     public Pagina() {
 
     }
-
-    public boolean Crear_pdf(String ubicacionArchivo,String logo_actual,String titulo_solicitud_actual, String fecha_solicitud_actual, String oficio_inicio_actual, String texto_oficio_actual, String motivo_adjunto_actual, String[] motivos, String documento_adjunto_actual, String[] documentos, String fin_oficio_actual, String firma_estudiante_actual) {
+    
+    //Metodo antes con InputStream
+    public InputStream Crear_pdf(String logo_actual,String titulo_solicitud_actual, String fecha_solicitud_actual, String oficio_inicio_actual, String texto_oficio_actual, String motivo_adjunto_actual, String[] motivos, String documento_adjunto_actual, String[] documentos, String fin_oficio_actual, String firma_estudiante_actual) {
 
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         //+                             Creacion del pdf                                 +
@@ -34,22 +32,28 @@ public class Pagina {
         for (int i = 0; i < documentos.length; i++) {
             cargar_documentos += "     * " + documentos[i].toString() + "\n";
         }
-
-        boolean generadoPDF = false;
+ 
         float margen_izquierdo = 70;
         float margen_derecho = 70;
         float margen_superior = 20;
         float margen_inferior = 2;
         float interlineado = 17;
-
+        
+        boolean generadaDocument= false;
+        ByteArrayOutputStream archivo = null;
         try {
             // Creación del documento
             //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             Document documento = new Document(PageSize.A4, margen_izquierdo, margen_derecho, margen_superior, margen_inferior);
             //PdfWriter.getInstance(documento, new FileOutputStream("solicitud.pdfubicacionArchivo"));
+            archivo = new ByteArrayOutputStream();
+            PdfWriter.getInstance(documento, archivo);
+            documento.open();
+            /*
             PdfWriter.getInstance(documento, new FileOutputStream(ubicacionArchivo));
             documento.open();
-
+            */
+            
             // Tabla principal para el oficio
             //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             PdfPTable oficio = new PdfPTable(1);
@@ -161,11 +165,14 @@ public class Pagina {
             //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             documento.add(oficio);
             documento.close();
-            generadoPDF = true;
+            generadaDocument =true;
         } catch (Exception de) {
             de.printStackTrace();
-            generadoPDF = false;
+            generadaDocument = false;
         }
-        return generadoPDF;
+        if(generadaDocument)
+           return new ByteArrayInputStream(archivo.toByteArray());
+        else
+           return null;
     }
 }

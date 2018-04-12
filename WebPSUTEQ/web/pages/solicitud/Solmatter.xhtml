@@ -37,7 +37,9 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label"> </label>
                             <div class="col-sm-6">
-                                <p:commandLink actionListener="#{RegistroSolicontr.generarSolicitud()}" update="mensageMov"  value="Generrar Solicitud" class="btn btn-success"/>  
+                                <h:commandLink target="_blank" actionListener="#{RegistroSolicontr.generarSolicitud()}" value="Generrar Solicitud" class="btn btn-success">
+                                    <p:fileDownload value="#{RegistroSolicontr.file}"/>
+                                </h:commandLink>
                             </div>
                         </div>
                     </div>
