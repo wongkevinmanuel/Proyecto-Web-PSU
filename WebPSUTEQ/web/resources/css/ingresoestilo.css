@@ -36,7 +36,7 @@ body {
 }
 
 #menu{
-    width: 23.5%;
+    width: 320px;
     /*border: ridge;*/
     height: 647px;
     float: left;

@@ -1,18 +1,19 @@
 package com.uteq.psu.controler;
 
+import com.google.gson.Gson;
 import com.uteq.psu.controler.util.JsfUtil;
 import com.uteq.psu.controler.util.Pagina;
+import com.uteq.psu.dao.DAOUsuario;
 import com.uteq.psu.modelo.ContentSolicitud;
 import com.uteq.psu.modelo.Estudiante;
 import com.uteq.psu.modelo.RegistroSolicitud;
 import com.uteq.psu.modelo.Solicitud;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
+import com.uteq.psu.modelo.Usuario;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -22,8 +23,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -43,6 +42,8 @@ public class RegistroSolicontr implements Serializable{
     private com.uteq.psu.bean.RegistroSolicitudFacade ejbFacade;
     @EJB
     private com.uteq.psu.bean.SolicitudFacade ejbFacadesolicitud;
+    @EJB
+    private com.uteq.psu.bean.UsuarioFacade ejbFacadeUsuario;
     
     /*Objetos para gestionar los datos al usuario */
     private ContentSolicitud contenidoSolicitud;
@@ -62,11 +63,11 @@ public class RegistroSolicontr implements Serializable{
     }
     
     public String obtenerSolicitud(int idSolicitud){
-        
         if (idSolicitud != 0 ){
             try{
                 //Obtiene la seleccion realiza el usuario en el menu 
                 Solicitud solicitud = (Solicitud) ejbFacadesolicitud.find(idSolicitud);
+                
                 currentRegisSoli = new RegistroSolicitud();
                 currentRegisSoli.setIdSolicitud(solicitud);
                 //LLenar el conetido de la solicitud
@@ -93,6 +94,10 @@ public class RegistroSolicontr implements Serializable{
             //Optener los datos del usuario
             HttpSession session = (HttpSession) ec.getSession(true);  
             Estudiante user = (Estudiante) session.getAttribute("usuario");
+            //Usuario usuario = new DAOUsuario().buscarUsuario( Integer.parseInt(user.getEstCedula()));
+            Usuario datosusuari = ejbFacadeUsuario.buscarUsuarioCed(user.getEstCedula()); //usuario.getIdSicau();
+
+
             //llenar la contenido de la solicitud con los datos del usuario
             user.ordenarInformacionUsuario();
             contenidoSolicitud.contSolicitudDatosEstud(user.getInformacionEstudiante());
@@ -121,17 +126,30 @@ public class RegistroSolicontr implements Serializable{
             
             //Generar el PDF de solicitud
             if (archivoSolicitudPDF != null){
-                String ubicacionArchivo = "Solicitud-" + currentRegisSoli.getIdSolicitud().getNombreSolicitud() + "-" + user.getEstApellido_paterno()+".pdf";
-                file = new DefaultStreamedContent(archivoSolicitudPDF,"application/pdf",ubicacionArchivo.toUpperCase());
+                String nombreArchivo = "Solicitud-" + currentRegisSoli.getIdSolicitud().getNombreSolicitud() + "-" + user.getEstApellido_paterno()+".pdf";
+                file = new DefaultStreamedContent(archivoSolicitudPDF,"application/pdf",nombreArchivo.toUpperCase());
                 //Guardar en la BD formateado en JSON
+                currentRegisSoli.setFechaRe(new Date());
+                currentRegisSoli.setNombreRe(nombreArchivo);
+                currentRegisSoli.setSolicitudReg();
+                ejbFacade.create(currentRegisSoli);
                 
-                context.addMessage(null , new FacesMessage("Se guardo su solicitud en la BD"));
+                
+                JsfUtil.addSuccessMessage("Solicitud guardada.");
+                //context.addMessage( "mensageMov" , new FacesMessage("Se guardo su solicitud en la BD"));
                 }else
-                    context.addMessage(null , new FacesMessage( FacesMessage.SEVERITY_ERROR ,"Error en solicitud" , "No se ha podido generar el PDF de la solicitud"));
+                JsfUtil.addErrorMessage("No se ha podido generar el PDF de la solicitud");
         
         }
     }
     
+    private String convertiraJson(ContentSolicitud data){
+        Gson jsonData = new Gson();
+        jsonData.toJson(data.getDirigidaNombre().getContenido());
+        
+        
+        return "";
+    }
     
     /* PROPIEDADES */
     /**

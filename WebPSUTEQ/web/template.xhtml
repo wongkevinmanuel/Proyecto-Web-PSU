@@ -48,9 +48,9 @@
                         <div class="contenedor-menu">
                             <a href="#" class="btn-menu">Menu <i class="icono fa fa-bars" aria-hidden="true"></i></a> <!--enlace para dispositivo movil-->
 
-                            <!--CREACIÓN DEL MENÚ-->
-                            <div class="scrollbar" id="style-1">
-
+                            <!--CREACIÓN DEL MENÚ <div class="scrollbar" id="style-1">-->
+                            <div class="sidebar-menu fixed">
+                                <div class="sidebar-menu-inner ps-container ps-active-y">
                                 <!--<div class="force-overflow"></div><ul class="menu">-->
                                 <ul id="main-menu" class="menu">
                                     <li>
@@ -87,30 +87,38 @@
                                     
                                 </ul>
                             </div>
+                           </div> <!--slider -->
                         </div>
                     </div> 
                 </div>
-               
                 <div id="cuerpo">    
-                    <div id="titulo">
+                    <div>
                         <div class="row">
                             <div class="col-md-6 col-sm-8 clearfix">
                                 <ul class="" style="list-style: none;">
                                     <!-- Informacion del Usuario-->
                                     <li class="profile-info dropdown" style="width: 158%">
                                         <a href="#" class="dropdown-toggle"> 
-                                            <img src="/Web3wildfly/faces/javax.faces.resource/usuario.png?ln=image" width="44"/>
+                                            <img src="/Web3wildfly/faces/javax.faces.resource/usuario.png?ln=image" alt="Estudiante" class="img-circle"  width="44"/>
                                             <h:outputText value="#{menucontr.nombreUser}"/>
                                         </a>
                                     </li>
                                 </ul>
                             </div>
-                            <h:form style="float: right"><h:commandLink class="btn btn-success" value="Cerrar Sesion" onclick="alert('Seguro')" action="#{menucontr.closeSession()}"/></h:form>
+                            <div class="col-md-6 col-sm-4 clearfix hidden-xs">
+                                <ul class="list-inline links-list pull-right">
+                                        <li>
+                                            <h:form style="float: right"><h:commandLink class="btn btn-success" value="Cerrar Sesion" onclick="alert('Seguro')" action="#{menucontr.closeSession()}"/></h:form>
+                                        </li>
+                                </ul>
+                            </div>
                         </div>
+                        
                     </div>    
                     <div id="contenido_cuerpo">
                         <!-- Titulo de la Solicitud -->
-                        <h2> 
+                        <hr></hr>
+                        <h2>
                             <ui:insert name="title"> ... </ui:insert>
                             <hr></hr>
                         </h2>
@@ -120,6 +128,24 @@
                             <hr></hr>
                         </p>
                     </div>
+                    <footer class="main">
+                            <div id="green_line">
+                                    <div id="container">
+                                            <div id="content_2">
+                                                    <div id="footer">
+                                                        <div class="left" style="font-size: 1rem;">
+                                                                    <strong>
+                                                                    Universidad Técnica Estatal de Quevedo<br/>
+                                                                    www.uteq.edu.ec<br/>
+                                                                    Quevedo-Los Ríos-Ecuador<br/>
+                                                                    © 2018 GGO: GG-GQ-OW 
+                                                                    </strong>
+                                                            </div>
+                                                    </div>        
+                                            </div>
+                                    </div>
+                            </div>
+                    </footer>
                 </div>
         </div>
     </h:body>

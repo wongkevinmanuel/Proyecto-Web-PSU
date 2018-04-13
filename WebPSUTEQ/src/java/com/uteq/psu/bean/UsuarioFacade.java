@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.uteq.psu.bean;
 
 import com.uteq.psu.modelo.Usuario;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -28,5 +25,30 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     public UsuarioFacade() {
         super(Usuario.class);
     }
+
+    public Usuario buscarUsuarioCed(String cedula) {
+        
+        Usuario usuario=null;
+        try {
+                javax.persistence.criteria.CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+                javax.persistence.criteria.CriteriaQuery<Usuario> cq = cb.createQuery(Usuario.class);
+                javax.persistence.criteria.Root<Usuario> rt = cq.from(Usuario.class);
+                javax.persistence.criteria.ParameterExpression <String> p = 
+                cb.parameter(String.class);
+                cq.select(rt).where(
+                        getEntityManager().getCriteriaBuilder().like(rt.get("cedula"),p));
+                
+                TypedQuery<Usuario> query = getEntityManager().createQuery(cq);
+                query.setParameter(p, cedula);
+                usuario = query.getSingleResult();
+        } catch (PersistenceException a) {usuario=null;}
+        if(usuario == null)
+            return null;
+        else
+            return usuario;
+        
+    }
+    
+    
     
 }

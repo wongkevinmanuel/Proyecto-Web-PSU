@@ -68,6 +68,20 @@ public abstract class AbstractFacade<T> {
         return q.getResultList();
     }
     
+    public T buscarUsuario(int cedula) {
+        //query = "SELECT u FROM Usuario u WHERE u.cedula = :cedula"
+        /*javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
+        javax.persistence.criteria.ParameterExpression <T> p = 
+        getEntityManager().getCriteriaBuilder().parameter(entityClass);
+        */
+        /*cq.select(rt).where(
+                getEntityManager().getCriteriaBuilder().gt(
+                        rt.get("cedula"),
+                        p));
+        */
+        return getEntityManager().find(entityClass, cedula);
+    }
     /*public List<T> obtenerSolicitudesEAGER(){
         //javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         //cq.select(cq.from(entityClass));
