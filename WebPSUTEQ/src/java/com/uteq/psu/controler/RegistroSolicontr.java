@@ -3,7 +3,6 @@ package com.uteq.psu.controler;
 import com.google.gson.Gson;
 import com.uteq.psu.controler.util.JsfUtil;
 import com.uteq.psu.controler.util.Pagina;
-import com.uteq.psu.dao.DAOUsuario;
 import com.uteq.psu.modelo.ContentSolicitud;
 import com.uteq.psu.modelo.Estudiante;
 import com.uteq.psu.modelo.RegistroSolicitud;
@@ -12,6 +11,8 @@ import com.uteq.psu.modelo.Usuario;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -102,8 +103,6 @@ public class RegistroSolicontr implements Serializable{
             user.ordenarInformacionUsuario();
             contenidoSolicitud.contSolicitudDatosEstud(user.getInformacionEstudiante());
             boolean solicitudLlenada = contenidoSolicitud.llenarContSolicitudDatosEstud();
-            //Dato de la seleccion de archivos a adjuntos [] selectedArchivoAdjunto
-            
             //Datos de Fecha
             Calendar fecha = Calendar.getInstance();
             String datoFecha = "Quevedo, " + fecha.get(Calendar.DATE) + " "+ fecha.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + "  del "+ fecha.get(Calendar.YEAR) ;
@@ -129,26 +128,30 @@ public class RegistroSolicontr implements Serializable{
                 String nombreArchivo = "Solicitud-" + currentRegisSoli.getIdSolicitud().getNombreSolicitud() + "-" + user.getEstApellido_paterno()+".pdf";
                 file = new DefaultStreamedContent(archivoSolicitudPDF,"application/pdf",nombreArchivo.toUpperCase());
                 //Guardar en la BD formateado en JSON
+                //Buscar ultimo registro
+                int a = 1==1 ? (ejbFacade.ultimoRegistro("RegistroSolicitud.encontrarUltimoRegistro")).getIdRegistro()+1 : 0;
+                currentRegisSoli.setIdRegistro( a);
                 currentRegisSoli.setFechaRe(new Date());
                 currentRegisSoli.setNombreRe(nombreArchivo);
-                currentRegisSoli.setSolicitudReg();
-                ejbFacade.create(currentRegisSoli);
-                
-                
-                JsfUtil.addSuccessMessage("Solicitud guardada.");
-                //context.addMessage( "mensageMov" , new FacesMessage("Se guardo su solicitud en la BD"));
+                currentRegisSoli.setIdUsuario(datosusuari);
+                currentRegisSoli.setSolicitudReg( convertiraJson(contenidoSolicitud, selectedArchivoAdjunto));
+                    try{
+                        ejbFacade.create(currentRegisSoli);
+                        JsfUtil.addSuccessMessage("Se guardo la solicitud generada");
+                    }catch(Exception e){
+                        JsfUtil.addErrorMessage(e,"No se pudo guardar la solicitud");
+                    }
                 }else
                 JsfUtil.addErrorMessage("No se ha podido generar el PDF de la solicitud");
-        
         }
     }
     
-    private String convertiraJson(ContentSolicitud data){
-        Gson jsonData = new Gson();
-        jsonData.toJson(data.getDirigidaNombre().getContenido());
-        
-        
-        return "";
+    private String convertiraJson(ContentSolicitud data, String [] selecionMotivo){
+        ContentSolicitud jsonCon = data;
+        jsonCon.setAdjuntoOpcion( 
+                new ArrayList<>(
+                Arrays.asList(selecionMotivo)));
+        return new Gson().toJson(jsonCon);
     }
     
     /* PROPIEDADES */

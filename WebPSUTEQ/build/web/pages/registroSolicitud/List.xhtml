@@ -3,11 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
-            <h:outputText value="#{bundle.ListRegistroSolicitudTitle}"></h:outputText>
+            <h:outputText value="Mis Solicitudes"></h:outputText>
         </ui:define>
         <ui:define name="body">
             <h:form styleClass="jsfcrud_list_form">
@@ -19,62 +20,28 @@
                     <h:outputText value="#{registroSolicitudController.pagination.pageFirstItem + 1}..#{registroSolicitudController.pagination.pageLastItem + 1}/#{registroSolicitudController.pagination.itemsCount}"/>&nbsp;
                     <h:commandLink action="#{registroSolicitudController.previous}" value="#{bundle.Previous} #{registroSolicitudController.pagination.pageSize}" rendered="#{registroSolicitudController.pagination.hasPreviousPage}"/>&nbsp;
                     <h:commandLink action="#{registroSolicitudController.next}" value="#{bundle.Next} #{registroSolicitudController.pagination.pageSize}" rendered="#{registroSolicitudController.pagination.hasNextPage}"/>&nbsp;
-                    <h:dataTable value="#{registroSolicitudController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListRegistroSolicitudTitle_idRegistro}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idRegistro}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListRegistroSolicitudTitle_nombreRe}"/>
-                            </f:facet>
+                    <p:dataTable value="#{registroSolicitudController.items}" var="item"  style="border:solid 1px">
+                            <p:column headerText="ID REGISTRO">
+                                <h:outputText value="#{item.idRegistro}"/>    
+                            </p:column>
+                        <p:column headerText="NOMBRE SOLICITUD">
                             <h:outputText value="#{item.nombreRe}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListRegistroSolicitudTitle_fechaRe}"/>
-                            </f:facet>
+                        </p:column>
+                        <p:column headerText="FECHA DE CREACION">
                             <h:outputText value="#{item.fechaRe}">
                                 <f:convertDateTime pattern="MM/dd/yyyy" />
                             </h:outputText>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListRegistroSolicitudTitle_solicitudReg}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.solicitudReg}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListRegistroSolicitudTitle_idSolicitud}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idSolicitud}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListRegistroSolicitudTitle_idUsuario}"/>
-                            </f:facet>
+                        </p:column>
+                        <p:column headerText="USUARIO">
                             <h:outputText value="#{item.idUsuario}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="&nbsp;"/>
-                            </f:facet>
-                            <h:commandLink action="#{registroSolicitudController.prepareView}" value="#{bundle.ListRegistroSolicitudViewLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{registroSolicitudController.prepareEdit}" value="#{bundle.ListRegistroSolicitudEditLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{registroSolicitudController.destroy}" value="#{bundle.ListRegistroSolicitudDestroyLink}"/>
-                        </h:column>
-                    </h:dataTable>
+                        </p:column>
+                        <p:column headerText="DOCUMENTO">
+                            <h:commandLink action="#{registroSolicitudController.prepareView}" value="Descargar"/>
+                        </p:column>
+                    </p:dataTable>
                 </h:panelGroup>
                 <br />
-                <h:commandLink action="#{registroSolicitudController.prepareCreate}" value="#{bundle.ListRegistroSolicitudCreateLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ListRegistroSolicitudIndexLink}"/>
+                
             </h:form>
         </ui:define>
     </ui:composition>

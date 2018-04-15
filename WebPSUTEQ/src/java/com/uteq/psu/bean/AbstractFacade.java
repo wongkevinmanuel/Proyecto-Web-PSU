@@ -52,13 +52,30 @@ public abstract class AbstractFacade<T> {
         q.setFirstResult(range[0]);
         return q.getResultList();
     }
-
+    
+    public T ultimoRegistro(String nQuery){
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(entityClass));
+        javax.persistence.Query q = getEntityManager().createNamedQuery(nQuery, entityClass);
+        q.setMaxResults(1);
+        return (T) q.getSingleResult();
+    }
+    
+    //Enviar query predeterminados
+    //public T queryPredeterminado(String nQuery){
+        //javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        //cq.select(cq.from(entityClass));
+        //javax.persistence.Query q = getEntityManager().createNamedQuery(nQuery, entityClass);
+        //javax.persistence.Query q = getEntityManager().createNamedQuery(name, entityClass);
+        //return new T;
+    //}
+    
     public int count() {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
         cq.select(getEntityManager().getCriteriaBuilder().count(rt));
         javax.persistence.Query q = getEntityManager().createQuery(cq);
-        return ((Long) q.getSingleResult()).intValue();
+        return ((Number) q.getSingleResult()).intValue();
     }
     ///////////// KEVIN 
     public List<T> obtenerSolicitudes(){

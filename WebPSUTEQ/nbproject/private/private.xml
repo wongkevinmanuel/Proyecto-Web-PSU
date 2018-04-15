@@ -5,12 +5,11 @@
         <group>
             <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/src/java/com/uteq/psu/bean/AbstractFacade.java</file>
             <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/src/java/com/uteq/psu/controler/RegistroSolicontr.java</file>
-            <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/src/java/com/uteq/psu/dao/DAOUsuario.java</file>
             <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/web/template.xhtml</file>
-            <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/src/java/com/uteq/psu/bean/SolicitudFacade.java</file>
             <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/src/java/com/uteq/psu/modelo/RegistroSolicitud.java</file>
-            <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/src/java/com/uteq/psu/modelo/Usuario.java</file>
+            <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/web/pages/registroSolicitud/List.xhtml</file>
             <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/src/java/com/uteq/psu/bean/UsuarioFacade.java</file>
+            <file>file:/C:/Users/Kevin%20Onofre/Documents/NetBeansProjects/WebPSUTEQ/src/java/com/uteq/psu/bean/RegistroSolicitudFacade.java</file>
         </group>
     </open-files>
 </project-private>
