@@ -129,14 +129,16 @@ public class RegistroSolicontr implements Serializable{
                 file = new DefaultStreamedContent(archivoSolicitudPDF,"application/pdf",nombreArchivo.toUpperCase());
                 //Guardar en la BD formateado en JSON
                 //Buscar ultimo registro
-                int a = 1==1 ? (ejbFacade.ultimoRegistro("RegistroSolicitud.encontrarUltimoRegistro")).getIdRegistro()+1 : 0;
-                currentRegisSoli.setIdRegistro( a);
+                RegistroSolicitud a = ejbFacade.ultimoRegistro("RegistroSolicitud.encontrarUltimoRegistro");
+                int id = ( a == null ? 1 : a.getIdRegistro()+1 );
+                currentRegisSoli.setIdRegistro(id);
                 currentRegisSoli.setFechaRe(new Date());
                 currentRegisSoli.setNombreRe(nombreArchivo);
                 currentRegisSoli.setIdUsuario(datosusuari);
                 currentRegisSoli.setSolicitudReg( convertiraJson(contenidoSolicitud, selectedArchivoAdjunto));
                     try{
                         ejbFacade.create(currentRegisSoli);
+                        
                         JsfUtil.addSuccessMessage("Se guardo la solicitud generada");
                     }catch(Exception e){
                         JsfUtil.addErrorMessage(e,"No se pudo guardar la solicitud");

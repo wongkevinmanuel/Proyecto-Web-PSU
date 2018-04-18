@@ -60,16 +60,6 @@ public abstract class AbstractFacade<T> {
         q.setMaxResults(1);
         return (T) q.getSingleResult();
     }
-    
-    //Enviar query predeterminados
-    //public T queryPredeterminado(String nQuery){
-        //javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        //cq.select(cq.from(entityClass));
-        //javax.persistence.Query q = getEntityManager().createNamedQuery(nQuery, entityClass);
-        //javax.persistence.Query q = getEntityManager().createNamedQuery(name, entityClass);
-        //return new T;
-    //}
-    
     public int count() {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
@@ -112,5 +102,14 @@ public abstract class AbstractFacade<T> {
         }
         
         return ;//q.getResultList();
-    }*/
+    }*/ 
+    //Enviar query predeterminados
+    //public T queryPredeterminado(String nQuery){
+        //javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        //cq.select(cq.from(entityClass));
+        //javax.persistence.Query q = getEntityManager().createNamedQuery(nQuery, entityClass);
+        //javax.persistence.Query q = getEntityManager().createNamedQuery(name, entityClass);
+        //return new T;
+    //}
+    
 }

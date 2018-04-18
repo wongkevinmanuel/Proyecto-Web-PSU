@@ -4,6 +4,7 @@ import com.uteq.psu.modelo.RegistroSolicitud;
 import com.uteq.psu.controler.util.JsfUtil;
 import com.uteq.psu.controler.util.PaginationHelper;
 import com.uteq.psu.bean.RegistroSolicitudFacade;
+import com.uteq.psu.modelo.Usuario;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -28,9 +29,10 @@ public class RegistroSolicitudController implements Serializable {
     private com.uteq.psu.bean.RegistroSolicitudFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
+    private Usuario user = new Usuario();
 
     public RegistroSolicitudController() {
-        
+        user.setIdUsuario(1);
     }
 
     public RegistroSolicitud getSelected() {
@@ -47,7 +49,7 @@ public class RegistroSolicitudController implements Serializable {
 
     public PaginationHelper getPagination() {
         if (pagination == null) {
-            pagination = new PaginationHelper(10) {
+            pagination = new PaginationHelper(5) {
 
                 @Override
                 public int getItemsCount() {
@@ -56,7 +58,7 @@ public class RegistroSolicitudController implements Serializable {
 
                 @Override
                 public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()},user));
                 }
             };
         }
@@ -150,7 +152,7 @@ public class RegistroSolicitudController implements Serializable {
             }
         }
         if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
+            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1},user).get(0);
         }
     }
 

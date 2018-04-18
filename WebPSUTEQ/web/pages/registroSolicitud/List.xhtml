@@ -18,9 +18,9 @@
                 <h:outputText escape="false" value="#{bundle.ListRegistroSolicitudEmpty}" rendered="#{registroSolicitudController.items.rowCount == 0}"/>
                 <h:panelGroup rendered="#{registroSolicitudController.items.rowCount > 0}">
                     <h:outputText value="#{registroSolicitudController.pagination.pageFirstItem + 1}..#{registroSolicitudController.pagination.pageLastItem + 1}/#{registroSolicitudController.pagination.itemsCount}"/>&nbsp;
-                    <h:commandLink action="#{registroSolicitudController.previous}" value="#{bundle.Previous} #{registroSolicitudController.pagination.pageSize}" rendered="#{registroSolicitudController.pagination.hasPreviousPage}"/>&nbsp;
-                    <h:commandLink action="#{registroSolicitudController.next}" value="#{bundle.Next} #{registroSolicitudController.pagination.pageSize}" rendered="#{registroSolicitudController.pagination.hasNextPage}"/>&nbsp;
-                    <p:dataTable value="#{registroSolicitudController.items}" var="item"  style="border:solid 1px">
+                    <h:commandLink action="#{registroSolicitudController.previous}" value="Anterior #{registroSolicitudController.pagination.pageSize}" rendered="#{registroSolicitudController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{registroSolicitudController.next}" value="Siguiente #{registroSolicitudController.pagination.pageSize}" rendered="#{registroSolicitudController.pagination.hasNextPage}"/>&nbsp;
+                    <p:dataTable value="#{registroSolicitudController.items}" var="item" style="border:solid 1px;">
                             <p:column headerText="ID REGISTRO">
                                 <h:outputText value="#{item.idRegistro}"/>    
                             </p:column>

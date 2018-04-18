@@ -97,6 +97,7 @@ public class menucontr implements Serializable{
     public String getNombreUser() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);  
         Estudiante user = (Estudiante) session.getAttribute("usuario");
+        //((Estudiante) ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getAttribute("usuario")).getEstCodigo();
         nombreUser = user.getEstApellido_paterno();
         return nombreUser;
     }

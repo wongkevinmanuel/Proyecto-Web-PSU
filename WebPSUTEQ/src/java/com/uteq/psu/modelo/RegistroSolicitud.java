@@ -32,7 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "RegistroSolicitud.findByNombreRe", query = "SELECT r FROM RegistroSolicitud r WHERE r.nombreRe = :nombreRe")
     , @NamedQuery(name = "RegistroSolicitud.findByFechaRe", query = "SELECT r FROM RegistroSolicitud r WHERE r.fechaRe = :fechaRe")
     , @NamedQuery(name = "RegistroSolicitud.findBySolicitudReg", query = "SELECT r FROM RegistroSolicitud r WHERE r.solicitudReg = :solicitudReg")
-    , @NamedQuery(name = "RegistroSolicitud.encontrarUltimoRegistro", query ="SELECT r FROM RegistroSolicitud r ORDER BY r.idRegistro DESC")})
+    , @NamedQuery(name = "RegistroSolicitud.encontrarUltimoRegistro", query ="SELECT r FROM RegistroSolicitud r ORDER BY r.idRegistro DESC")
+    , @NamedQuery(name = "RegistroSolicitud.encontrarRegistroSolixUsuario", query ="SELECT r FROM RegistroSolicitud r WHERE r.idUsuario = :idUser")})
 public class RegistroSolicitud implements Serializable {
 
     private static final long serialVersionUID = 1L;
