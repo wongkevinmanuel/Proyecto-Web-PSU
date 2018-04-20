@@ -11,7 +11,7 @@
             <h:outputText value="Mis Solicitudes"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:form styleClass="jsfcrud_list_form">
+            <h:form>
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
@@ -20,8 +20,8 @@
                     <h:outputText value="#{registroSolicitudController.pagination.pageFirstItem + 1}..#{registroSolicitudController.pagination.pageLastItem + 1}/#{registroSolicitudController.pagination.itemsCount}"/>&nbsp;
                     <h:commandLink action="#{registroSolicitudController.previous}" value="Anterior #{registroSolicitudController.pagination.pageSize}" rendered="#{registroSolicitudController.pagination.hasPreviousPage}"/>&nbsp;
                     <h:commandLink action="#{registroSolicitudController.next}" value="Siguiente #{registroSolicitudController.pagination.pageSize}" rendered="#{registroSolicitudController.pagination.hasNextPage}"/>&nbsp;
-                    <p:dataTable value="#{registroSolicitudController.items}" var="item" style="border:solid 1px;">
-                            <p:column headerText="ID REGISTRO">
+                    <p:dataTable value="#{registroSolicitudController.items}" var="item" class="table table-bordered table-responsive table-hover">
+                        <p:column headerText="ID REGISTRO">
                                 <h:outputText value="#{item.idRegistro}"/>    
                             </p:column>
                         <p:column headerText="NOMBRE SOLICITUD">
@@ -32,16 +32,17 @@
                                 <f:convertDateTime pattern="MM/dd/yyyy" />
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="USUARIO">
+                        <!-- <p:column headerText="USUARIO">
                             <h:outputText value="#{item.idUsuario}"/>
-                        </p:column>
+                        </p:column> -->
                         <p:column headerText="DOCUMENTO">
-                            <h:commandLink action="#{registroSolicitudController.prepareView}" value="Descargar"/>
+                            <h:commandLink actionListener="#{registroSolicitudController.descargar()}" value="Descargar"  class="btn btn-default">
+                                <p:fileDownload value="#{registroSolicitudController.file}" />
+                            </h:commandLink>
                         </p:column>
                     </p:dataTable>
                 </h:panelGroup>
-                <br />
-                
+                <br /> 
             </h:form>
         </ui:define>
     </ui:composition>

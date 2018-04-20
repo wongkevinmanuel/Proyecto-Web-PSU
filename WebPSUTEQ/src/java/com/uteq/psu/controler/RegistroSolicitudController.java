@@ -1,10 +1,14 @@
 package com.uteq.psu.controler;
 
+import com.google.gson.Gson;
 import com.uteq.psu.modelo.RegistroSolicitud;
 import com.uteq.psu.controler.util.JsfUtil;
 import com.uteq.psu.controler.util.PaginationHelper;
 import com.uteq.psu.bean.RegistroSolicitudFacade;
+import com.uteq.psu.controler.util.Pagina;
+import com.uteq.psu.modelo.ContentSolicitud;
 import com.uteq.psu.modelo.Usuario;
+import java.io.InputStream;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -18,6 +22,10 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 @Named("registroSolicitudController")
 @SessionScoped
@@ -29,10 +37,14 @@ public class RegistroSolicitudController implements Serializable {
     private com.uteq.psu.bean.RegistroSolicitudFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
-    private Usuario user = new Usuario();
-
+    
+    private Usuario user;
+    private StreamedContent file;
+    
+    
     public RegistroSolicitudController() {
-        user.setIdUsuario(1);
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        user = new Usuario((int) session.getAttribute("idUsuario"));
     }
 
     public RegistroSolicitud getSelected() {
@@ -81,7 +93,42 @@ public class RegistroSolicitudController implements Serializable {
         selectedItemIndex = -1;
         return "Create";
     }
-
+    
+    public void descargar(){
+        RegistroSolicitud registroSolicitud =  (RegistroSolicitud)getItems().getRowData();
+        ContentSolicitud contenidoSolicitud = 
+                (new Gson()).fromJson(registroSolicitud.getSolicitudReg(), ContentSolicitud.class);
+        
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String ubicacionLogo = (String) servletContext.getRealPath("/resources/image/logo_solicitud.png");
+           
+        
+        Pagina solicitud = new Pagina();
+        InputStream inputStreamSolicitud = solicitud.Crear_pdf(
+                ubicacionLogo,
+               registroSolicitud.getIdSolicitud().getNombreSolicitud(), 
+               registroSolicitud.getFechaRe().toString(),
+                contenidoSolicitud.getDirigidaNombre().getContenido()+contenidoSolicitud.getDirigidaTitulo().getContenido(), 
+                contenidoSolicitud.getContenido().getContenido(), 
+                contenidoSolicitud.getAdjuntoTexto().getContenido(), 
+                 contenidoSolicitud.getAdjuntoOpcion()
+                         .toArray(new String[contenidoSolicitud.getAdjuntoOpcion().size()]),
+                "",
+                new String[]{""},
+                contenidoSolicitud.getAdicional().getContenido(),
+                contenidoSolicitud.getTituloSolicitante().getContenido());
+        if (inputStreamSolicitud!= null) {
+                String nombreArchivo =
+                        "Solicitud-"+registroSolicitud.getIdSolicitud().getNombreSolicitud()+
+                        ".pdf";
+                file = new DefaultStreamedContent(inputStreamSolicitud,"application/pdf", nombreArchivo);
+                
+            } else {
+            JsfUtil.addErrorMessage("No se ha podido descargar el registro.");
+            }
+         
+    }
+    
     public String create() {
         try {
             getFacade().create(current);
@@ -233,6 +280,20 @@ public class RegistroSolicitudController implements Serializable {
             }
         }
 
+    }
+
+    /**
+     * @return the file
+     */
+    public StreamedContent getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(StreamedContent file) {
+        this.file = file;
     }
 
 }

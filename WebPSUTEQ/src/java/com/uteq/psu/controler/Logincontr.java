@@ -1,16 +1,18 @@
 package com.uteq.psu.controler;
  
 import com.google.gson.Gson;
+import com.uteq.psu.controler.util.JsfUtil;
 import com.uteq.psu.modelo.Estudiante;
 import com.uteq.psu.modelo.StatusWS;
+import com.uteq.psu.modelo.Usuario;
 import com.uteq.psu.wsclient.ClientWsSicau;
 import java.io.Serializable;
 import javax.annotation.ManagedBean;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
-import javax.json.stream.JsonParser;
+import javax.inject.Named; 
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.ClientErrorException;
 import org.primefaces.json.JSONException;
@@ -27,6 +29,9 @@ public class Logincontr implements Serializable{
 
     private String userSicau;
     private String claveSicau;
+    
+    @EJB
+    private com.uteq.psu.bean.UsuarioFacade ejbFacabeUsuario;
     
     public Logincontr() {
         
@@ -52,6 +57,25 @@ public class Logincontr implements Serializable{
                      FacesContext msg = FacesContext.getCurrentInstance();
                      HttpSession session = (HttpSession) msg.getExternalContext().getSession(true);
                      session.setAttribute("usuario", estudiante);
+                     
+                     /* Consultar datos en la BD de la aplicacion si se encuentra ya registrado*/
+                    Usuario usuario = ejbFacabeUsuario.buscarUsuarioCed(estudiante.getEstCedula());
+                         if (usuario == null) {
+                            Usuario user = new Usuario();
+                            Usuario a = ejbFacabeUsuario.ultimoRegistro("Usuario.encontrarUltimoRegistro");
+                            int id = (a == null) ? 1 :a.getIdUsuario()+1;
+                            user.setIdUsuario(id);
+                            user.setIdSicau(Integer.toString (estudiante.getEstCodigo()));
+                            user.setCedula(estudiante.getEstCedula());
+                            try{
+                                ejbFacabeUsuario.create(user);
+                                session.setAttribute("idUsuario",(ejbFacabeUsuario.ultimoRegistro("Usuario.encontrarUltimoRegistro") ).getIdSicau());
+                            } catch(Exception e){
+                                JsfUtil.addErrorMessage(e,"Error al guardar usuario");
+                            }
+                         } else {
+                             session.setAttribute("idUsuario",usuario.getIdUsuario());
+                         }
                      }
                      else if ("2".equals(statusWs.getStatus())){
                      statusWs = new Gson().fromJson(dataJson, StatusWS.class);

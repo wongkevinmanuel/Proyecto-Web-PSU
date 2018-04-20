@@ -13,11 +13,11 @@
             <h:panelGroup id="messagePanel" layout="block">
                 <h:messages errorStyle="Color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
-            <h:form> <p:growl id="mensageMov" showDetail="true" sticky="true"/>
+            <h:form id="form"><p:growl id="mensageMov" showDetail="true" sticky="true"/>
                 <h:panelGroup rendered="true">
                 <div class="panel panel-dark">
                     <div class="panel-heading">
-                        <div class="panel-title">  <h:outputText value="Documento Adjunto:"/> </div>
+                        <div class="panel-title">  <h:outputText value="Requerimientos:"/> </div>
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
@@ -26,18 +26,29 @@
                                 <h:outputText value="#{RegistroSolicontr.contenidoSolicitud.adjuntoTexto.contenido}"/>
                             </h:panelGrid>
                              </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6" style="padding-right: 5px">
                                <!-- <div class="form-check">-->
                                <p:selectManyCheckbox id="basic" value="#{RegistroSolicontr.selectedArchivoAdjunto}" class="form-check">
                                    <f:selectItems value="#{RegistroSolicontr.itemsDisponiblesSelectMuchos}" var="motivo" itemLabel="#{motivo}" itemValue="#{motivo}" />
                                </p:selectManyCheckbox>
                                 <!--</div>-->
                             </div>
+                            <h:panelGrid rendered="#{RegistroSolicontr.datosFecha}" class="col-sm-9" style="float: right; padding-right: 1px"> 
+                                <br/>
+                                <h:outputText value="Fechas de inasistencia:"/>
+                                <br/>
+                                <h:outputText value="Fecha de inicio:" />
+                                <p:calendar id="fechainicio" required="true"/>
+                                <br/>
+                                <h:outputText value="Fecha de Fin:" />
+                                <p:calendar id="fechafin" required="true"/> 
+                            </h:panelGrid>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label"> </label>
                             <div class="col-sm-6">
-                                <h:commandLink target="_blank" actionListener="#{RegistroSolicontr.generarSolicitud()}" value="Generrar Solicitud" class="btn btn-success">
+                                <hr></hr>
+                                <h:commandLink actionListener="#{RegistroSolicontr.generarSolicitud()}" value="Generrar Solicitud" class="btn btn-success">
                                     <p:fileDownload value="#{RegistroSolicontr.file}"/>
                                 </h:commandLink>
                             </div>

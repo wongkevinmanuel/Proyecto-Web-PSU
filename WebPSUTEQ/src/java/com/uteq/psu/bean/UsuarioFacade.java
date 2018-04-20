@@ -27,7 +27,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     }
 
     public Usuario buscarUsuarioCed(String cedula) {
-        Usuario usuario=null;
+        Usuario usuario;
         try {
                 javax.persistence.criteria.CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
                 javax.persistence.criteria.CriteriaQuery<Usuario> cq = cb.createQuery(Usuario.class);

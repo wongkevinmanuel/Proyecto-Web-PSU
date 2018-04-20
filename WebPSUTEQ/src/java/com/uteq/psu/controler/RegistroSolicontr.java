@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.uteq.psu.controler.util.JsfUtil;
 import com.uteq.psu.controler.util.Pagina;
 import com.uteq.psu.modelo.ContentSolicitud;
+import com.uteq.psu.modelo.DatoValor;
 import com.uteq.psu.modelo.Estudiante;
 import com.uteq.psu.modelo.RegistroSolicitud;
 import com.uteq.psu.modelo.Solicitud;
@@ -15,10 +16,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.NamingContainer;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -37,6 +41,7 @@ import org.primefaces.model.StreamedContent;
 public class RegistroSolicontr implements Serializable{
 
 
+
     /* Objetos para gestionar la persistencia*/
     private RegistroSolicitud currentRegisSoli;
     @EJB
@@ -51,6 +56,8 @@ public class RegistroSolicontr implements Serializable{
     private String [] selectedArchivoAdjunto;
     private StreamedContent file;
     
+    /*Controlor de vista de fecha*/
+    private boolean datosFecha=false;
     
     public RegistroSolicitud getSelected() {
         if(currentRegisSoli==null){
@@ -74,6 +81,20 @@ public class RegistroSolicontr implements Serializable{
                 //LLenar el conetido de la solicitud
                 contenidoSolicitud = new ContentSolicitud();
                 contenidoSolicitud.ordenarDatos(currentRegisSoli.getIdSolicitud().getDescripcion());
+                
+                /*Verificar si la solicitud tiene que ingresar fechas */
+                /*******************************************************************/
+                //contenidoSolicitud.getContenido().getVariablesContenido();
+                for (Iterator<DatoValor> iterator = contenidoSolicitud.getContenido().getVariablesContenido().iterator(); iterator.hasNext();) {
+                    DatoValor next = iterator.next();
+                    if (next.getNombreVariable().equals("faltadiainicio") ||
+                        next.getNombreVariable().equals("faltadiafin")) {
+                        datosFecha = true;
+                    }else
+                        datosFecha= false;
+                }  
+                /*******************************************************************/
+                
             }catch(Exception a){ JsfUtil.addErrorMessage(a, "Error en la solicitud" + a.toString());}
         }
         return "/pages/solicitud/Solmatter.xhtml";
@@ -91,18 +112,39 @@ public class RegistroSolicontr implements Serializable{
         }
         else{
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            HttpSession session = (HttpSession) ec.getSession(true); 
             //************************************ Generar Solcitud 
             //Optener los datos del usuario
-            HttpSession session = (HttpSession) ec.getSession(true);  
             Estudiante user = (Estudiante) session.getAttribute("usuario");
-            //Usuario usuario = new DAOUsuario().buscarUsuario( Integer.parseInt(user.getEstCedula()));
-            Usuario datosusuari = ejbFacadeUsuario.buscarUsuarioCed(user.getEstCedula()); //usuario.getIdSicau();
-
-
+            int idusuario = (int) session.getAttribute("idUsuario");
+            
             //llenar la contenido de la solicitud con los datos del usuario
             user.ordenarInformacionUsuario();
             contenidoSolicitud.contSolicitudDatosEstud(user.getInformacionEstudiante());
             boolean solicitudLlenada = contenidoSolicitud.llenarContSolicitudDatosEstud();
+            
+            /*Verificar si la solicitud tiene que ingresar fechas */
+            //*************************************************************
+            if (datosFecha){
+            //form:fechainicio_input
+            //form:fechafin_input
+            Map<String,String> request = ec.getRequestParameterMap();
+            String fechaInicio = request.get("form"+ NamingContainer.SEPARATOR_CHAR+"fechainicio_input");
+            String fechaFin = request.get("form"+ NamingContainer.SEPARATOR_CHAR+"fechafin_input");
+            ArrayList<DatoValor> fechas = new ArrayList<>();
+            fechas.add(new DatoValor("faltadiainicio", fechaInicio));
+            fechas.add(new DatoValor("faltadiafin", fechaFin));
+            contenidoSolicitud.getContenido().setContenido(
+                    contenidoSolicitud.buscarVariableReemplazar(
+                            contenidoSolicitud.getContenido().getContenido()
+                            ,fechas));
+            }
+            //*************************************************************
+            /*@materiaatrasada@ @profesor@*/
+            
+            
+            
+
             //Datos de Fecha
             Calendar fecha = Calendar.getInstance();
             String datoFecha = "Quevedo, " + fecha.get(Calendar.DATE) + " "+ fecha.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + "  del "+ fecha.get(Calendar.YEAR) ;
@@ -134,11 +176,10 @@ public class RegistroSolicontr implements Serializable{
                 currentRegisSoli.setIdRegistro(id);
                 currentRegisSoli.setFechaRe(new Date());
                 currentRegisSoli.setNombreRe(nombreArchivo);
-                currentRegisSoli.setIdUsuario(datosusuari);
+                currentRegisSoli.setIdUsuario(new Usuario(idusuario));
                 currentRegisSoli.setSolicitudReg( convertiraJson(contenidoSolicitud, selectedArchivoAdjunto));
                     try{
                         ejbFacade.create(currentRegisSoli);
-                        
                         JsfUtil.addSuccessMessage("Se guardo la solicitud generada");
                     }catch(Exception e){
                         JsfUtil.addErrorMessage(e,"No se pudo guardar la solicitud");
@@ -207,4 +248,19 @@ public class RegistroSolicontr implements Serializable{
         this.file = file;
     }
 
+    
+    
+    /**
+     * @return the datosFecha
+     */
+    public boolean isDatosFecha() {
+        return datosFecha;
+    }
+
+    /**
+     * @param datosFecha the datosFecha to set
+     */
+    public void setDatosFecha(boolean datosFecha) {
+        this.datosFecha = datosFecha;
+    }
 }

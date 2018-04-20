@@ -174,7 +174,6 @@ public class ContentSolicitud implements Serializable{
                 }   
             }
         }
-        
     }
     
     public boolean llenarContSolicitudDatosEstud(){
@@ -195,15 +194,17 @@ public class ContentSolicitud implements Serializable{
         return true;
     }
     
-    private String buscarVariableReemplazar(String texto,ArrayList<DatoValor> informacionReemplazar){
+    public String buscarVariableReemplazar(String texto,ArrayList<DatoValor> informacionReemplazar){
         for (Iterator<DatoValor> iterator = informacionReemplazar.iterator(); iterator.hasNext();) {
                  DatoValor next = iterator.next();
+                 if(next.getValorVariable().equals("")){}
+                 else{
                  texto = texto.replace(next.getNombreVariable(), next.getValorVariable());
+                 }
         }
         return texto.replace("@", "");
-    }
-    
-    
+        //return texto;
+    } 
     
     /**
      * @return the dirigidaNombre
